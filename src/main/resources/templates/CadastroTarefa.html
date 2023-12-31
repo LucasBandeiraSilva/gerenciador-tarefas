@@ -22,29 +22,41 @@
   <body>
     <main>
       <div class="container">
-        <form action="salvar/tarefa" method="POST">
+        <form action="salvar/tarefa" method="POST" th:object="${tarefa}">
           <div class="row">
             <div class="col-md-4">
-              <label for="nome" class="mb-3 form-label">Nome da tarefa</label>
+              <label for="titulo" class="mb-3 form-label">Título da tarefa</label>
               <input
                 type="text"
-                id="nome"
-                name="nome"
+                id="titulo"
+                th:field="*{titulo}"
                 required
                 class="form-control"
               />
             </div>
             <div class="col-md-4">
-              <label for="nome" class="mb-3 form-label"
+              <label for="descrição" class="mb-3 form-label"
                 >Descrição curta da tarefa</label
               >
-              <textarea name="descricao" id="descricao" cols="30" class="form-control"></textarea>
+              <textarea
+                th:field="*{descricao}"
+                id="descricao"
+                cols="30"
+                class="form-control"
+              ></textarea>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <label for="dataTermino" class="form-label">Data de termino da tarefa</label>
-              <input type="date" name="dataTermino" id="dataTermino" class="form-control">
+              <label for="dataTermino" class="form-label"
+                >Data de termino da tarefa</label
+              >
+              <input
+                type="date"
+                th:field="*{dataTermino}"
+                id="dataTermino"
+                class="form-control"
+              />
             </div>
             <div class="col-md-4 mt-auto">
               <button class="btn btn-success" type="submit">Enviar</button>
