@@ -30,9 +30,10 @@
                 type="text"
                 id="titulo"
                 th:field="*{titulo}"
-                required
                 class="form-control"
+                th:errorclass="is-invalid"
               />
+              <div class="invalid-feedback" th:errors="*{titulo}"></div>
             </div>
             <div class="col-md-4">
               <label for="descrição" class="mb-3 form-label"
@@ -41,9 +42,11 @@
               <textarea
                 th:field="*{descricao}"
                 id="descricao"
+                th:errorclass="is-invalid"
                 cols="30"
                 class="form-control"
               ></textarea>
+              <div class="invalid-feedback" th:errors="*{descricao}"></div>
             </div>
           </div>
           <div class="row mt-3">
@@ -55,10 +58,12 @@
                 type="date"
                 th:field="*{dataTermino}"
                 id="dataTermino"
+                th:errorclass="is-invalid"
                 class="form-control"
               />
+              <div class="invalid-feedback" th:errors="*{dataTermino}"></div>
             </div>
-            <div class="col-md-4 mt-auto">
+            <div class="col-md-4 mt-3">
               <button class="btn btn-success" type="submit">Enviar</button>
             </div>
           </div>

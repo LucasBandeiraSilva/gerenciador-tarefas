@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import org.hibernate.validator.constraints.Length;
 
 import com.lucas.bandeira.tarefas.entidade.StatusTarefa;
+import com.lucas.bandeira.tarefas.entidade.Tarefa;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +26,15 @@ public class TarefaDto {
     private String descricao;
     @Enumerated(EnumType.STRING)
     private StatusTarefa statusTarefa;
-    @FutureOrPresent(message = "não pode ser uma data ja passada")
+    @FutureOrPresent(message="Data inválida! Data deve ser anterior ou igual a data atual.")
+    @NotNull(message = "Você precisa forncecer uma data de termino")
     private LocalDate dataTermino;
+
+    public Tarefa tarefaConverter(){
+        Tarefa tarefa = new Tarefa();
+        tarefa.setTitulo(this.titulo);
+        tarefa.setDescricao(this.descricao);
+        tarefa.setDataTermino(this.dataTermino);
+        return tarefa;
+    }
 }
