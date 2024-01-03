@@ -10,21 +10,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lucas.bandeira.tarefas.dto.TarefaDto;
+import com.lucas.bandeira.tarefas.entidade.StatusTarefa;
 import com.lucas.bandeira.tarefas.entidade.Tarefa;
 import com.lucas.bandeira.tarefas.repositorio.TarefaRepositorio;
 
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/tarefa")
 public class TarefaController {
 
     @Autowired
     private TarefaRepositorio tarefaRepositorio;
 
-    @GetMapping("/tarefa")
+    @GetMapping("/nova")
     public ModelAndView cadastrarTarefa() {
         ModelAndView mv = new ModelAndView("CadastroTarefa");
         mv.addObject("tarefa", new TarefaDto());
@@ -32,7 +35,7 @@ public class TarefaController {
 
     }
 
-    @PostMapping("salvar/tarefa")
+    @PostMapping("/salvar")
     public ModelAndView salvarTarefa(@Valid @ModelAttribute("tarefa") TarefaDto tarefaDto, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
@@ -40,13 +43,14 @@ public class TarefaController {
             mv.setViewName("CadastroTarefa");
         } else {
             Tarefa tarefa = tarefaDto.tarefaConverter();
+            tarefa.setStatusTarefa(StatusTarefa.PENDENTE);
             tarefaRepositorio.save(tarefa);
-            mv.setViewName("redirect:/index");
+            mv.setViewName("redirect:/tarefa/");
         }
         return mv;
     }
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public ModelAndView todasTarefas() {
         ModelAndView mv = new ModelAndView("index");
         List<Tarefa> listaDeTarefas = tarefaRepositorio.findAll();

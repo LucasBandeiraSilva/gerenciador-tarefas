@@ -22,10 +22,16 @@
   <body>
     <main>
       <div class="container">
-        <form action="/tarefa/salvar" method="POST" th:object="${tarefa}">
+        <form
+          th:action="@{/tarefa/{id}(id=${tarefa.id})}"
+          method="POST"
+          th:object="${tarefa}"
+        >
           <div class="row">
             <div class="col-md-4">
-              <label for="titulo" class="mb-3 form-label">Título da tarefa</label>
+              <label for="titulo" class="mb-3 form-label"
+                >Título da tarefa</label
+              >
               <input
                 type="text"
                 id="titulo"
