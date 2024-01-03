@@ -1,10 +1,14 @@
 package com.lucas.bandeira.tarefas.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,7 +41,6 @@ public class TarefaController {
         } else {
             Tarefa tarefa = tarefaDto.tarefaConverter();
             tarefaRepositorio.save(tarefa);
-            System.out.println(tarefa.toString());
             mv.setViewName("redirect:/index");
         }
         return mv;
@@ -46,6 +49,21 @@ public class TarefaController {
     @GetMapping("/index")
     public ModelAndView todasTarefas() {
         ModelAndView mv = new ModelAndView("index");
+        List<Tarefa> listaDeTarefas = tarefaRepositorio.findAll();
+        mv.addObject("listaDeTarefas", listaDeTarefas);
         return mv;
+    }
+    @GetMapping("/editar/{id}")
+    public ModelAndView editar(@PathVariable Long id){
+        ModelAndView mv = new ModelAndView();
+        Optional<Tarefa> optionalTarefa = tarefaRepositorio.findById(id);
+        if(optionalTarefa.isPresent()){
+            mv.setViewName("edit");
+            mv.addObject("tarefa", optionalTarefa.get());
+        }else{
+            mv.setViewName("erro");
+        }
+        return mv;
+
     }
 }
