@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum StatusTarefa {
     PENDENTE("Pendente"), REALIZADA("Realizada"),
-    CONCLUIDA("Concluida"), EM_ANDAMENTO("Em_andamento");
+    EM_ANDAMENTO("Em andamento");
 
     private String status;
 }

@@ -43,7 +43,7 @@ public class TarefaController {
             mv.setViewName("CadastroTarefa");
         } else {
             Tarefa tarefa = tarefaDto.tarefaConverter();
-            tarefa.setStatusTarefa(StatusTarefa.PENDENTE);
+            tarefa.setStatusTarefa(StatusTarefa.EM_ANDAMENTO);
             tarefaRepositorio.save(tarefa);
             mv.setViewName("redirect:/tarefa/");
         }
@@ -57,17 +57,37 @@ public class TarefaController {
         mv.addObject("listaDeTarefas", listaDeTarefas);
         return mv;
     }
+
     @GetMapping("/editar/{id}")
-    public ModelAndView editar(@PathVariable Long id){
+    public ModelAndView editar(@PathVariable Long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Tarefa> optionalTarefa = tarefaRepositorio.findById(id);
-        if(optionalTarefa.isPresent()){
+        if (optionalTarefa.isPresent()) {
             mv.setViewName("edit");
+            mv.addObject("status", StatusTarefa.values());
             mv.addObject("tarefa", optionalTarefa.get());
-        }else{
+        } else {
             mv.setViewName("erro");
         }
         return mv;
 
     }
+
+    @PostMapping("/{id}")
+    public ModelAndView salvarEdicao(@Valid TarefaDto tarefaDto, @PathVariable Long id,
+            BindingResult bindingResult) {
+        ModelAndView mv = new ModelAndView();
+
+        Optional<Tarefa> tarefaOptional = tarefaRepositorio.findById(id);
+        if (tarefaOptional.isPresent()) {
+            Tarefa tarefa = tarefaDto.toTarefa(tarefaOptional.get());
+
+            tarefaRepositorio.save(tarefa);
+            mv.setViewName("redirect:/tarefa/");
+        } else {
+            mv.setViewName("erro");
+        }
+        return mv;
+    }
+
 }

@@ -3,6 +3,8 @@ package com.lucas.bandeira.tarefas.entidade;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +24,7 @@ public class Tarefa {
     private Long id;
     private String titulo;
     private String descricao;
+    @Enumerated(EnumType.STRING)
     private StatusTarefa statusTarefa;
-    private LocalDate dataTermino;
+    private java.sql.Date dataTermino;
 }

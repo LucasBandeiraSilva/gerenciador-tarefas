@@ -3,6 +3,7 @@ package com.lucas.bandeira.tarefas.dto;
 import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.lucas.bandeira.tarefas.entidade.StatusTarefa;
 import com.lucas.bandeira.tarefas.entidade.Tarefa;
@@ -29,13 +30,22 @@ public class TarefaDto {
     private StatusTarefa statusTarefa;
     @NotNull(message="Data de vencimento não pode ser nula")
     @Future(message = "Você precisa fornecer uma data futura")
-    private LocalDate dataTermino;
+    // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private java.sql.Date dataTermino;
 
     public Tarefa tarefaConverter(){
         Tarefa tarefa = new Tarefa();
         tarefa.setTitulo(this.titulo);
         tarefa.setDescricao(this.descricao);
         tarefa.setDataTermino(this.dataTermino);
+        return tarefa;
+    }
+
+    public Tarefa toTarefa(Tarefa tarefa){
+        tarefa.setTitulo(titulo);
+        tarefa.setDescricao(descricao);
+        tarefa.setStatusTarefa(statusTarefa);
+        tarefa.setDataTermino(dataTermino);
         return tarefa;
     }
 }
