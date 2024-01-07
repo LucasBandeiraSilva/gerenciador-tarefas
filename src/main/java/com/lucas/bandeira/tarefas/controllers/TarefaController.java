@@ -89,5 +89,18 @@ public class TarefaController {
         }
         return mv;
     }
+    @GetMapping("/excluir/{id}")
+    public ModelAndView delete(@PathVariable Long id){
+        ModelAndView mv = new ModelAndView();
+        Optional<Tarefa> tarefaOptional = tarefaRepositorio.findById(id);
+        if (tarefaOptional.isPresent()) {
+            tarefaRepositorio.deleteById(id);
+            mv.setViewName("redirect:/tarefa/");
+        }
+        else{
+            mv.setViewName("erro");
+        }
+        return mv;
+    }
 
 }
